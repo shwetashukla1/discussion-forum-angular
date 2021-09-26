@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="row">
+        <hr />
+        <div class="col-md-9">
+            <div class="row post">
+                <div class="col-md-1">
+                    <!-- Section to Display Votes-->
+                    <div class="col-md-1">
+                        <div class="d-flex flex-column votebox">
+                            <div class="p-2">
+                                <fa-icon (click)="upvotePost()" class="upvote" [icon]="faArrowUp"></fa-icon>
+                            </div>
+                            <div class="p-2 votecount">{{post.voteCount}}</div>
+                            <div class="p-2">
+                                <fa-icon (click)="downvotePost()" class="downvote" [icon]="faArrowDown">
+                                </fa-icon>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-11">
+                    <span>
+                        <span class="subreddit-text">{{post?.communityName}}</span>
+                        <span> . Posted
+                            <span> {{post?.duration}} </span>
+                            by
+                            <a *ngIf="post.userName === null" class="username" href="">Anonymous</a>
+                            <a *ngIf="post.userName != null" class="username" href="">{{post?.userName}}</a>
+                        </span>
+                    </span>
+                    <hr />
+                    <a class="post-title">{{post?.postName}}</a>
+                    <div>
+                        <p class="post-text" [innerHtml]="post.description"></p>
+                    </div>
+                    <div class="post-comment">
+                        <form [formGroup]="commentForm" (ngSubmit)="postComment()">
+                            <div class="form-group">
+                                <textarea class="form-control" [formControlName]="'text'" placeholder="Your Thoughts?"
+                                    required></textarea>
+                            </div>
+                            <button type="submit" [disabled]="!commentForm.valid"
+                                class="login float-right">Comment</button>
+                        </form>
+                    </div>
+                    <div style="margin-top: 60px;" *ngFor="let comment of comments">
+                        <div class="comment">
+                            <div class="username">
+                                <a routerLink="/user/comment.username">{{comment?.userName}}</a>
+                            </div>
+                            <div>
+                                <p>{{comment?.duration}}</p>
+                            </div>
+                            <b>{{comment?.text}}</b>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <app-side-bar></app-side-bar>
+            <app-community-side-bar></app-community-side-bar>
+        </div>
+    </div>
+</div>
